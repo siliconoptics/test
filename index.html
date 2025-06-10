@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>its quiet</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        #gif-container {
+            position: relative;
+            width: 180px;
+            height: 300px;
+        }
+
+        .gif {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+        }
+
+        .gif.active {
+            display: block;
+        }
+
+        audio {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="gif-container">
+        <img id="static-gif" class="gif active" src="https://litter.catbox.moe/u32azpnhviubcuq4.gif" alt="Static GIF" title="its off.">
+        <img id="animated-gif" class="gif" src="https://litter.catbox.moe/fzhgeyl1agvto0ah.gif" alt="Animated GIF" title="its bright.">
+    </div>
+
+    <audio id="audio" loop>
+        <source src="https://litter.catbox.moe/zbxatute0k75qnf7.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        const staticGif = document.getElementById('static-gif');
+        const animatedGif = document.getElementById('animated-gif');
+        const audio = document.getElementById('audio');
+        const siteTitle = document.querySelector('title');
+        let isClicked = false;
+
+        const updateSiteTitle = (tooltip) => {
+            siteTitle.textContent = tooltip;  
+        };
+
+        staticGif.addEventListener('click', () => {
+            if (isClicked) {
+                animatedGif.classList.remove('active');
+                audio.pause();
+                staticGif.classList.add('active');
+                updateSiteTitle(staticGif.title);  
+                isClicked = false;
+            } else {
+                staticGif.classList.remove('active');
+                animatedGif.classList.add('active');
+                audio.play();
+                updateSiteTitle(animatedGif.title);  
+                isClicked = true;
+            }
+        });
+
+        animatedGif.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                animatedGif.classList.add('active');
+                staticGif.classList.remove('active');
+                updateSiteTitle(animatedGif.title);  
+            } else {
+                audio.pause();
+                animatedGif.classList.remove('active');
+                staticGif.classList.add('active');
+                updateSiteTitle(staticGif.title);  
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>
